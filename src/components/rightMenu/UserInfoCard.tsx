@@ -2,9 +2,9 @@ import React from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { User } from "@prisma/client";
-import { auth, User } from "@clerk/nextjs/server";
+import { auth } from "@clerk/nextjs/server";
 import prisma from "@/lib/client";
-import UserInfoCardInteraction from "./userInfoCardInteraction";
+import UserInfoCardInteraction from "./UserInfoCardInteraction";
 
 const UserInfoCard = async ({ user }: { user: User }) => {
   const createdAtDate = new Date(user.createdAt);
@@ -112,7 +112,6 @@ const UserInfoCard = async ({ user }: { user: User }) => {
         </div>
         <UserInfoCardInteraction
           userId={user.id}
-          curretUserId={currentUserId}
           isUserBlocked={isUserBlocked}
           isFollowing={isFollowing}
           isFollowingSent={isFollowingSent}
