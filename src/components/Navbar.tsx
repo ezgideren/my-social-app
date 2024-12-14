@@ -2,7 +2,7 @@ import Link from 'next/link'
 import Image from 'next/image'
 import React from 'react'
 import MobileMenu from './MobileMenu'
-import { ClerkLoading, ClerkLoaded, SignedIn, SignedOut } from '@clerk/nextjs'
+import { ClerkLoading, ClerkLoaded, SignedIn, SignedOut, UserButton } from '@clerk/nextjs'
 
 const Navbar = () => {
   return (
@@ -45,6 +45,7 @@ const Navbar = () => {
                     <div className='cursor-pointer'>
                         <Image src="/notifications.png" alt='' width={24} height={24}/>
                     </div>
+                    <UserButton />
                 </SignedIn>
                 <SignedOut>
                 <div className='flex items-center gap-2 text-sm'>
