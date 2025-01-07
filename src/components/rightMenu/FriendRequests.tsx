@@ -3,7 +3,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { auth } from "@clerk/nextjs/server";
 import prisma from "@/lib/client";
-import FriendRequestList from "./friendRequestList";
+import FriendRequestList from "./FriendRequestList";
 
 const FriendRequests = async () => {
   const { userId } = auth();
