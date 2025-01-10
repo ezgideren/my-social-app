@@ -163,10 +163,17 @@ export const declineFollowRequest = async (userId: string) => {
     }
 }
 
-export const updateProfile = async (formData: FormData) => {
-    const fields = Object.fromEntries(formData)
+export const updateProfile = async (
+    prevState: { success: boolean; error: boolean },
+    payload: { formData: FormData, cover: string }
+) => {
+    const { formData, cover } = payload
+    const fields = Object.fromEntries(formData);
 
-    console.log(fields)
+    //not to update with empty strings
+    const filteredFields = Object.fromEntries(
+        Object.entries(fields).filter(([_, value]) => value !== "")
+    )
 
     const Profile = z.object({
         cover: z.string().optional(),
@@ -179,30 +186,31 @@ export const updateProfile = async (formData: FormData) => {
 
     })
 
-    const validatedFields = Profile.safeParse(fields)
+    const validatedFields = Profile.safeParse({ cover, ...filteredFields })
 
     if (!validatedFields.success) {
         console.log(validatedFields.error.flatten().fieldErrors)
-        return "err"
+        return { success: false, error: true }
     }
-
+    //Getting it from Clerk
     const { userId } = auth()
     if (!userId) {
-        return "err"
+        return { success: false, error: true }
     }
 
     try {
         await prisma.user.update({
             where: {
                 id: userId
-
             },
             data: validatedFields.data,
 
         })
+        return { success: true, error: false }
 
     } catch (err) {
         console.log(err)
+        return { success: false, error: true }
     }
 
 }
